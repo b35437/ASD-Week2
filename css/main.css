@@ -15,3 +15,17 @@ Class: ASD
 #a, #b {
 	display: none;
 }
+
+span.red{
+	color: red;
+}
+
+#error{
+	display: none;
+}
+
+label.error{
+	display: block;
+	margin: 10px 0;
+	color: red;
+}
