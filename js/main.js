@@ -34,19 +34,25 @@ $('#addItem').on('pageinit', function() {
 		
 		//get form information and store within an object
 		var equipment = {};
-			equipment.equipmentName = ["Equipment Name:", $("#ename").val()];
-			equipment.itemList = ["Item Slot:", $("#itemList").val()];
-			equipment.rarity = ["Rarity:", $("input:radio[name=rarity]:checked").val()];
-			equipment.levelSlide = ["Item Level:", $("#islide").val()];
-			equipment.addNote = ["Notes:", $("#note").val()];
+			equipment.equipmentName = [$("#ename").val()];
+			equipment.itemList = [$("#itemList").val()];
+			equipment.rarity = [$("input:radio[name=rarity]:checked").val()];
+			equipment.levelSlide = [$("#islide").val()];
+			equipment.addNote = [$("#note").val()];
 			
 			//convert object to string
 			localStorage.setItem(randomID, JSON.stringify(equipment));
 			
 			//notify the user, equipment has been added
-			alert("Equipment has been Added");
-			
+			if(localStorage.length === 0){
+				alert("Equipment not saved");
+			} else {
+				alert("Equipment has been added to localStorage")
+
+			}
+		window.location.reload();
 	};
+
 });
 
 $('#equipmentNameSearch').on('pageinit', function(){
@@ -101,11 +107,87 @@ $('#equipmentNameSearch').on('pageinit', function(){
 });	
 
 $('#slotSearch').on('pageinit', function(){
-	
+	$('#lstorage').on('click', function(){
+		//Clears the field before it repoplulates it with new data
+		//this will prevent duplicates
+		$('#slotListings').empty();
+		//for loop to continue through localStorage for all items.
+		for( var i=0, ls = localStorage.length; i < ls; i++) {
+		var key = localStorage.key(i);
+		var value = localStorage.getItem(key);
+
+		var objectString = JSON.parse(value);
+		//console.log(objectString);
+
+			var subList = $(''+
+				'<div class="listing">' +
+					'<h3>' + 'Equipment Name: ' + objectString.equipmentName +'</h3>' +
+					'<p>' + 'Item Slot: ' + objectString.itemList +'</p>' +
+					'<p>' + 'Rarity: ' + objectString.rarity +'</p>' +
+					'<p>' + 'Level: ' + objectString.levelSlide +'</p>' +
+					'<p>' + 'Note: ' + objectString.addNote +'</p>' +
+					'<div class="ui-block-b">' + '<input type="button" class="delete" value="Delete" id="' + key + '"/>' + '</div>'+
+					'<div class="ui-block-b">' + '<input type="button" class="edit" value="Edit" id="' + key + '"/>' + '</div>'+
+					'<br />'+
+				'</div>'
+			).appendTo('#slotListings');
+
+			//delete function
+			$('.delete').on('click', function(){
+				var answer = ('Are you sure you want to delete this item?');
+				if (answer){
+					var dKey = this.id;
+					localStorage.removeItem(dKey);
+					window.location.reload();
+				}
+
+				
+			});
+
+			//edit function
+			$('.edit').on('click', function(){
+				$.mobile.changePage('#addItem');
+				var eKey = $(this).attr('id');
+				
+				$('#ename').val(objectString.equipmentName[0]);
+				$('#itemList').val(objectString.itemList[0]);
+            	var radioBtn = document.forms[0].rarity;
+				for(var i = 0; i < radioBtn.length; i++){
+					if(radioBtn[i].value == "Common" && equipment.rarity[1] == "Common") {
+						radioBtn[i].setAttribute("checked", "checked");
+					}else if(radioBtn[i].value == "Uncommon" && equipment.rarity[1] == "Uncommon") {
+						radioBtn[i].setAttribute("checked", "checked");
+					}else if(radioBtn[i].value == "Rare" && equipment.rarity[1] == "Rare") {
+						radioBtn[i].setAttribute("checked", "checked");
+					}else if (radioBtn[i].value == "Epic" && equipment.rarity[1] == "Epic"){
+						radioBtn[i].setAttribute("checked", "checked");
+					}
+				}
+            	$('#islide').val(objectString.levelSlide[0]);
+            	$('#note').val(objectString.addNote[0]);
+				$('#key').val(objectString);
+			});
+		}
+	})
+});
+
+
+
+//Thsi will clear the localstorage
+$("#clearLocalStorage").on('click', function() {
+	if(localStorage.length === 0){
+		alert("There is nothing to delete");
+	}else {
+    	var verify = confirm("Are you sure you want to clear the localStorage?");
+	}
+ 
+    if (verify) {
+        localStorage.clear();
+    }
+    location.refresh();
 });
 
 $('#levelSearch').on('pageinit', function(){
-	
 });
 
 $('#about').on('pageinit', function(){
@@ -116,3 +198,9 @@ $('#about').on('pageinit', function(){
     	$('#' + $(this).attr('data-href')).show();
 	});
 });
+
+(function(){
+	$('#deleteItem').bind('click', deleteLocalItem);
+})
+
+

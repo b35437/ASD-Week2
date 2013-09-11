@@ -98,15 +98,7 @@
 			       <ul data-role="listview" id="equipmentList" data-collapsed="false"  data-inset="true" data-filter="true" data-theme="a"></ul>
       <!-- Repeatable information based on number of items in storage -->
               <div id="equipListings">
-                <div class="listing">
-                  <h2>Equipment Name</h2>
-                  <p>Item Slot</p>
-                  <p>Rarity</p>
-                  <p>Item Level</p>
-                  <p>Notes</p>
-                </div>
-                <br/>
-                <br/>
+                
               </div>
       </div>
 		</div>
@@ -127,10 +119,18 @@
           <a href="#" data-rel="back" data-icon="back">Back</a>
             <h1>Slot</h1>
       </div> <!-- End Header div -->
+      <div class="ui-grid-a">
+              <div class="ui-block-a"><input type="button" value="LocalStorage" id="lstorage"/></div>
+              <div class="ui-block-b"><input type="button" value="Clear Storage" id="clearLocalStorage"/></div>
+          </div>
           <div data-role="content">
 
 				<!-- Content will display information pulled from JSON -->
-			<ul data-role="listview" id="slotList" data-collapsed="false" data-inset="true" data-filter="true"></ul>	
+			<ul data-role="listview" id="slotList" data-collapsed="false" data-inset="true" data-filter="true"></ul>
+      <!-- Repeatable information based on number of items in storage -->
+              <div id="slotListings">
+                
+              </div>	
 		</div>
           <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
@@ -319,12 +319,15 @@
                         <label for="note">Additional Notes:</label>
                         <textarea id="note" name="note" placeholder="Add additional notes about the item"></textarea>
                       </div>
-                            </fieldset>
-                          
-                              <div class="ui-grid-a">
-                                <div class="ui-block-a"><input type="submit" value="Add Item" id="saveBtn" data-theme="b"/></div>
-                                <div class="ui-block-b"><input id="resetForm"  type="reset" value="Reset Form" /></div>
+                  </fieldset>
+                        <div class="ui-grid-a">
+                            <div class="ui-block-a"><input type="submit" value="Add Item" id="saveBtn" data-theme="b"/></div>
+                            <div class="ui-block-b"><input id="resetForm"  type="reset" value="Reset Form" /></div>
+                        </div>        
             </form>
+            <div data-role="hidden">
+              <input id="key" type="hidden" value=""/>
+            </div>
           
         </div>
           <div data-role="footer" data-position="fixed">
