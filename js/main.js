@@ -25,6 +25,8 @@ $('#homepg').on('pageinit', function() {
 				          '<p>' + 'Item Slot: ' + equip.itemList +'</p>' +
 				          '<p>' + 'Level: ' + equip.levelSlide +'</p>' +
 				          '<p>' + 'Note: ' + equip.addNote +'</p>' +
+				          '<br />'+
+						  '<br />' +
 				        '</div>'
 				    ).appendTo('#dataListings');
 				}
@@ -52,6 +54,8 @@ $('#homepg').on('pageinit', function() {
 						'<p>' + 'Item Slot: ' + itemList +'</p>' +
 						'<p>' + 'Level: ' + levelSlide +'</p>' +
 						'<p>' + 'Note: ' + addNote +'</p>' +
+						'<br />'+
+						'<br />' +
 					'</div>').appendTo('#dataListings');
 				});
 			}
@@ -83,8 +87,9 @@ $('#homepg').on('pageinit', function() {
 					'<p>' + 'Item Slot: ' + objectString.itemList +'</p>' +
 					'<p>' + 'Level: ' + objectString.levelSlide +'</p>' +
 					'<p>' + 'Note: ' + objectString.addNote +'</p>' +
-			//Edited these out untill i am able to get localstorage to pull to form correctly.
-					//'<div class="ui-block-b">' + '<input type="button" class="delete" value="Delete" data-key="' + key + '"/>' + '</div>'+
+					'<div class="ui-block-b">' + '<input type="button" class="delete" value="Delete" data-key="' + key + '"/>' + '</div>'+
+
+					//Edited these out untill i am able to get localstorage to pull to form correctly.
 					//'<div class="ui-block-b">' + '<input type="button" class="edit" value="Edit" data-key="' + key + '">' + '</div>'+
 					'<br />'+
 					'<br />' +
@@ -94,13 +99,12 @@ $('#homepg').on('pageinit', function() {
 
 			//delete function
 			$('.delete').on('click', function(){
-				var answer = ('Are you sure you want to delete this item?');
-				if (answer){
-					var vkey = $(this).data('key');
+				   var vkey = $(this).data('key');
+					
 					//console.log(vkey);
 					localStorage.removeItem(vkey);
-					//window.location.href="#dataSearch";
-				}
+					
+					$.mobile.changePage('#homepg');
 			});
 
 			//edit function
