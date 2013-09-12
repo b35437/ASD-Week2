@@ -87,7 +87,7 @@ $('#homepg').on('pageinit', function() {
 					'<p>' + 'Item Slot: ' + objectString.itemList +'</p>' +
 					'<p>' + 'Level: ' + objectString.levelSlide +'</p>' +
 					'<p>' + 'Note: ' + objectString.addNote +'</p>' +
-					'<div class="ui-block-b">' + '<input type="button" class="delete" value="Delete" data-key="' + key + '"/>' + '</div>'+
+					'<div class="ui-block-b">' + '<a href="#dataSearch" class="delete" value="Delete" data-key="' + key + '"/>Delete</a>' + '</div>'+
 
 					//Edited these out untill i am able to get localstorage to pull to form correctly.
 					//'<div class="ui-block-b">' + '<input type="button" class="edit" value="Edit" data-key="' + key + '">' + '</div>'+
