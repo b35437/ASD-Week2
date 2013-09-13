@@ -25,8 +25,7 @@ $('#homepg').on('pageinit', function() {
 				          '<p>' + 'Item Slot: ' + equip.itemList +'</p>' +
 				          '<p>' + 'Level: ' + equip.levelSlide +'</p>' +
 				          '<p>' + 'Note: ' + equip.addNote +'</p>' +
-				          '<br />'+
-						  '<br />' +
+				          '<hr />' +
 				        '</div>'
 				    ).appendTo('#dataListings');
 				}
@@ -54,8 +53,7 @@ $('#homepg').on('pageinit', function() {
 						'<p>' + 'Item Slot: ' + itemList +'</p>' +
 						'<p>' + 'Level: ' + levelSlide +'</p>' +
 						'<p>' + 'Note: ' + addNote +'</p>' +
-						'<br />'+
-						'<br />' +
+						'<hr />' +
 					'</div>').appendTo('#dataListings');
 				});
 			}
@@ -87,12 +85,12 @@ $('#homepg').on('pageinit', function() {
 					'<p>' + 'Item Slot: ' + objectString.itemList +'</p>' +
 					'<p>' + 'Level: ' + objectString.levelSlide +'</p>' +
 					'<p>' + 'Note: ' + objectString.addNote +'</p>' +
-					'<div class="ui-block-b">' + '<a href="#dataSearch" class="delete" value="Delete" data-key="' + key + '"/>'Delete'</a>' + '</div>'+
+					'<div class="ui-block-b">' + '<a href="#homepg" class="delete" value="Delete" data-key="' + key + '">Delete</a>' + '</div>'+
 
 					//Edited these out untill i am able to get localstorage to pull to form correctly.
 					//'<div class="ui-block-b">' + '<input type="button" class="edit" value="Edit" data-key="' + key + '">' + '</div>'+
 					'<br />'+
-					'<br />' +
+					'<hr />' +
 				'</div>'
 			).appendTo('#dataListings'); // attach to the dataListing div.
 
@@ -104,7 +102,6 @@ $('#homepg').on('pageinit', function() {
 					//console.log(vkey);
 					localStorage.removeItem(vkey);
 					
-					$.mobile.changePage('#homepg');
 			});
 
 			//edit function
@@ -184,8 +181,6 @@ $('#levelSearch').on('pageinit', function(){
 });
 
 $('#dataSearch').on('pageinit', function(){
-
-	
 });
 
 //Thsi will clear the localstorage
