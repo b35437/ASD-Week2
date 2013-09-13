@@ -10,7 +10,7 @@ $('#homepg').on('pageinit', function() {
 
 	//using ajax to pull data from json file
 	$('#json').on('click', function(){
-		$('#dataListings').empty();//clear the div to prevent duplicate listings
+		$('#dataListings').empty();
 		$.mobile.changePage('#dataSearch');//sen user to selected page.
 		$.ajax({
 			url		 : 'xhr/data.json',
@@ -25,7 +25,7 @@ $('#homepg').on('pageinit', function() {
 				          '<p>' + 'Item Slot: ' + equip.itemList +'</p>' +
 				          '<p>' + 'Level: ' + equip.levelSlide +'</p>' +
 				          '<p>' + 'Note: ' + equip.addNote +'</p>' +
-						  '<hr />'+
+				          '<hr />' +
 				        '</div>'
 				    ).appendTo('#dataListings');
 				}
@@ -53,7 +53,7 @@ $('#homepg').on('pageinit', function() {
 						'<p>' + 'Item Slot: ' + itemList +'</p>' +
 						'<p>' + 'Level: ' + levelSlide +'</p>' +
 						'<p>' + 'Note: ' + addNote +'</p>' +
-						'<hr />'+
+						'<hr />' +
 					'</div>').appendTo('#dataListings');
 				});
 			}
@@ -61,7 +61,63 @@ $('#homepg').on('pageinit', function() {
 		});
 	});
 
-		
+		//localStorage function get, edit and delete localstorage
+		//get data (localstorage)
+	$('#lstorage').on('click', function(){
+
+		//Clears the field before it repoplulates it with new data
+		//this will prevent duplicates
+		$.mobile.changePage('#equipmentNameSearch');
+		//Empty the div to 
+		$('#dataListings').empty();
+		//for loop to continue through localStorage for all items.
+		for( var i=0, ls = localStorage.length; i < ls; i++) {
+		var key = localStorage.key(i);
+		var value = localStorage.getItem(key);
+
+		//var objectString = JSON.parse(value);
+		var objectString = $.parseJSON(value);
+		//console.log(objectString);
+
+			$(''+
+				'<div class="listing">' +
+					'<h3>' + 'Equipment Name: ' + objectString.equipmentName +'</h3>' +
+					'<p>' + 'Item Slot: ' + objectString.itemList +'</p>' +
+					'<p>' + 'Level: ' + objectString.levelSlide +'</p>' +
+					'<p>' + 'Note: ' + objectString.addNote +'</p>' +
+					'<div class="ui-block-b">' + '<a href="#homepg" class="delete" value="Delete" data-key="' + key + '">Delete</a>' + '</div>'+
+
+					//Edited these out untill i am able to get localstorage to pull to form correctly.
+					//'<div class="ui-block-b">' + '<input type="button" class="edit" value="Edit" data-key="' + key + '">' + '</div>'+
+					'<br />'+
+					'<hr />' +
+				'</div>'
+			).appendTo('#dataListings'); // attach to the dataListing div.
+
+
+			//delete function
+			$('.delete').on('click', function(){
+				   var vkey = $(this).data('key');
+					
+					//console.log(vkey);
+					localStorage.removeItem(vkey);
+					
+			});
+
+			//edit function
+			$('.edit').on('click', function(key, value){
+				$.mobile.changePage('#addItem');
+
+				var ekey = $(this).attr('data-key');
+				//console.log(ekey);
+				$('#ename').val(objectString.equipmentName[0]);
+				$('#itemList').val(objectString.itemList[0]);
+            	$('#islide').val(objectString.levelSlide[0]);
+            	$('#note').val(objectString.addNote[0]);
+				$('#key').val(ekey);
+			});
+		}
+	});
 });
 
 //Add item page, and verify required fields are filled
@@ -78,72 +134,7 @@ $('#addItem').on('pageinit', function() {
 		
 			});
 
-			
-   //submit click, calls saveData.
-	var submit = $('#submit');
-	submit.on('click', saveData);
-
-	//localStorage function get, edit and delete localstorage
-		//get data (localstorage)
-	$('#lstorage').on('click', function(){
-
-		//Clears the field before it repoplulates it with new data
-		//this will prevent duplicates
-		$.mobile.changePage('#equipmentNameSearch');
-		//Empty the div to 
-		$('#dataListings').empty();
-		//for loop to continue through localStorage for all items.
-		for( var i=0, ls = localStorage.length; i < ls; i++) {
-			var key = localStorage.key(i);
-			var value = localStorage.getItem(key);
-
-			var objectString = JSON.parse(value);
-			//console.log(objectString);
-
-				$(''+
-					'<div class="listing">' +
-						'<h3>' + 'Equipment Name: ' + objectString.equipmentName +'</h3>' +
-						'<p>' + 'Item Slot: ' + objectString.itemList +'</p>' +
-						'<p>' + 'Level: ' + objectString.levelSlide +'</p>' +
-						'<p>' + 'Note: ' + objectString.addNote +'</p>' +
-						'<div class="ui-block-b">' + '<a href="#dataSearch" class="delete" value="Delete" data-key="' + key + '">Delete</a>' + '</div> ' +
-						'<br />' +
-						//Edited these out untill i am able to get localstorage to pull to form correctly.
-						//'<div class="ui-block-b">' + '<a href="#addItem" class="edit" value="Edit" data-key="' + key + '">Edit</a>' + '</div>'+
-						'<br />'+
-						'<hr>'+
-					'</div>'
-				).appendTo('#dataListings'); // attach to the dataListing div
-		}
-	});
-
-
-			//delete function
-			$('.delete').on('click', function(){
-				   var vkey = $(this).data('key');
-					
-					//console.log(vkey);
-					localStorage.removeItem(vkey);
-					
-					$.mobile.changePage('#homepg');
-			});
-
-			//edit function
-			$('.edit').on('click', function(key, value){
-				$.mobile.changePage('#addItem');
-
-				var ekey = $(this).attr('data-key');
-				//console.log(ekey);
-				$('#ename').val(objectString.equipmentName[0]);
-				$('#itemList').val(objectString.itemList[0]);
-            	$('#islide').val(objectString.levelSlide[0]);
-            	$('#note').val(objectString.addNote[0]);
-				$('#key').val(ekey);
-			});
-
-}); //end addItem function
-
-//save data to localstorage
+			//save data to localstorage
 var saveData = function (key, value){
 	if($('#key').val() == '') {
 		var randomID = Math.floor(Math.random()*10000001);
@@ -173,6 +164,12 @@ var saveData = function (key, value){
 
 		window.location.reload();
 };
+
+   //submit click, calls saveData.
+	var submit = $('#submit');
+	submit.on('click', saveData);
+
+}); //end addItem function
 
 $('#equipmentNameSearch').on('pageinit', function(){
 });	
